@@ -1,0 +1,6 @@
+sentence-transformers==2.2.2
+psycopg2-binary==2.9.6
+pymilvus==2.2.8
+chromadb==0.3.26
+qdrant-client==1.1.6
+numpy==1.24.3
