@@ -1,71 +1,85 @@
 import os
+import sys
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
 
-# Get API URL and key from environment variables
-API_URL = os.getenv('VECTORDBCLOUD_QDRANT_API_URL')
-API_KEY = os.getenv('VECTORDBCLOUD_QDRANT_API_KEY')
+def main():
+    # Get API URL and key from environment variables
+    API_URL = os.getenv('VECTORDBCLOUD_QDRANT_API_URL')
+    API_KEY = os.getenv('VECTORDBCLOUD_QDRANT_API_KEY')
 
-# Initialize Qdrant client
-client = QdrantClient(url=API_URL, api_key=API_KEY)
+    if not API_URL or not API_KEY:
+        print("Error: API URL or API Key not set in environment variables.")
+        sys.exit(1)
 
-# Initialize the sentence transformer model (open-source embeddings)
-model = SentenceTransformer('all-MiniLM-L6-v2')
-vector_size = model.get_sentence_embedding_dimension()
+    try:
+        # Initialize Qdrant client
+        client = QdrantClient(url=API_URL, api_key=API_KEY)
 
-# Define collection name
-collection_name = "document_collection"
+        # Initialize the sentence transformer model (open-source embeddings)
+        model = SentenceTransformer('all-MiniLM-L6-v2')
+        vector_size = model.get_sentence_embedding_dimension()
 
-# Create a new collection (or recreate if it already exists)
-client.recreate_collection(
-    collection_name=collection_name,
-    vectors_config=models.VectorParams(size=vector_size, distance=models.Distance.COSINE),
-)
+        # Define collection name
+        collection_name = "document_collection"
 
-# Sample data
-documents = [
-    "The quick brown fox jumps over the lazy dog",
-    "A journey of a thousand miles begins with a single step",
-    "To be or not to be, that is the question",
-    "All that glitters is not gold",
-    "Where there's a will, there's a way"
-]
+        # Create a new collection (or recreate if it already exists)
+        client.recreate_collection(
+            collection_name=collection_name,
+            vectors_config=models.VectorParams(size=vector_size, distance=models.Distance.COSINE),
+        )
 
-# Generate embeddings using the open-source model
-embeddings = model.encode(documents)
+        # Sample data
+        documents = [
+            "The quick brown fox jumps over the lazy dog",
+            "A journey of a thousand miles begins with a single step",
+            "To be or not to be, that is the question",
+            "All that glitters is not gold",
+            "Where there's a will, there's a way"
+        ]
 
-# Prepare points for insertion
-points = [
-    models.PointStruct(
-        id=i,
-        vector=embedding.tolist(),
-        payload={"text": text}
-    )
-    for i, (text, embedding) in enumerate(zip(documents, embeddings))
-]
+        # Generate embeddings using the open-source model
+        embeddings = model.encode(documents)
 
-# Insert points
-client.upsert(
-    collection_name=collection_name,
-    points=points
-)
+        # Prepare points for insertion
+        points = [
+            models.PointStruct(
+                id=i,
+                vector=embedding.tolist(),
+                payload={"text": text}
+            )
+            for i, (text, embedding) in enumerate(zip(documents, embeddings))
+        ]
 
-print(f"Inserted {len(documents)} documents into Qdrant collection '{collection_name}'")
+        # Insert points
+        client.upsert(
+            collection_name=collection_name,
+            points=points
+        )
 
-# Perform a similarity search
-query = "What is the meaning of life?"
-query_embedding = model.encode([query])[0].tolist()
+        print(f"Inserted {len(documents)} documents into Qdrant collection '{collection_name}'")
 
-search_result = client.search(
-    collection_name=collection_name,
-    query_vector=query_embedding,
-    limit=3
-)
+        # Perform a similarity search
+        query = "What is the meaning of life?"
+        query_embedding = model.encode([query])[0].tolist()
 
-print("\nTop 3 similar documents:")
-for i, point in enumerate(search_result):
-    print(f"{i+1}. Text: {point.payload['text']}")
-    print(f"   Score: {point.score}\n")
+        search_result = client.search(
+            collection_name=collection_name,
+            query_vector=query_embedding,
+            limit=3
+        )
 
-print("Qdrant cookbook example completed successfully.")
+        print("\nTop 3 similar documents:")
+        for i, point in enumerate(search_result):
+            print(f"{i+1}. Text: {point.payload['text']}")
+            print(f"   Score: {point.score}\n")
+
+        print("Qdrant cookbook example completed successfully.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
