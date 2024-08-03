@@ -1,8 +1,24 @@
-# Open-Source Embedding Cookbook
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Python](https://img.shields.io/badge/python-3.7%2B-green.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 This repository contains a collection of Python scripts demonstrating how to use open-source embeddings with various vector databases. These cookbooks provide practical examples for data ingestion and similarity search using popular vector databases.
 
 Vector databases are specialized database systems designed to store and query high-dimensional vectors efficiently. They are crucial for machine learning applications, particularly in natural language processing and computer vision.
+
+## Table of Contents
+
+- [Supported Vector Databases](#supported-vector-databases)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Cookbooks](#cookbooks)
+- [Customization](#customization)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Disclaimer](#disclaimer)
 
 ## Supported Vector Databases
 
@@ -46,9 +62,14 @@ Each cookbook is a standalone Python script demonstrating how to:
 - Insert sample data with embeddings
 - Perform similarity searches
 
-Before running any script, make sure to set the following environment variables:
+Before running any script, set the appropriate environment variables:
 
-[Environment variable setup instructions remain the same]
+```
+export VECTORDBCLOUD_<DATABASE>_API_URL="https://your-vector-db-cloud-url.com"
+export VECTORDBCLOUD_<DATABASE>_API_KEY="your-api-key"
+```
+
+Replace `<DATABASE>` with the specific database name (e.g., PGVECTOR, MILVUS, CHROMADB, QDRANT).
 
 To run a cookbook:
 
@@ -92,14 +113,14 @@ If you encounter issues:
 
 For specific error messages, please refer to the documentation of the respective vector database or create an issue in this repository.
 
-## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Contribution and Feedback
 
-## License
+We encourage contributions to enhance these cookbook examples. For contributing new scripts or suggesting improvements, please refer to our [Contribution Guidelines](CONTRIBUTING.md). If you encounter issues or have suggestions, please use the issue tracker.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
-These scripts are provided as examples and may need to be adapted to your specific use case and production environment. Always follow best practices for security and performance when working with databases.
+These scripts are provided as examples and may need to be adapted to your specific use case and production environment. They are not guaranteed to work in all scenarios and should be thoroughly tested before use in any critical or production systems. Always follow best practices for security and performance when working with databases and APIs. The authors and contributors of this repository are not responsible for any damages or losses that may result from the use of these scripts.
+
+Vector Database Cloud configurations may vary, and it's essential to consult the official documentation and your system administrators before running these scripts in your environment. Ensure you have the necessary permissions and understand the potential impact of each operation on your data and system resources.
