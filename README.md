@@ -1,6 +1,3 @@
-Certainly! I'll create a comprehensive README.md file for your "Open-Source-Embedding-Cookbook" repository. Here's a draft:
-
-```markdown
 # Open-Source Embedding Cookbook
 
 This repository contains a collection of Python scripts demonstrating how to use open-source embeddings with various vector databases. These cookbooks provide practical examples for data ingestion and similarity search using popular vector databases.
