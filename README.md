@@ -8,7 +8,7 @@ Vector databases are specialized database systems designed to store and query hi
 
 ## Table of Contents
 
-1.[About Vector Database Cloud](#about-vector-database-cloud)
+1. [About Vector Database Cloud](#about-vector-database-cloud)
 2. [Introduction](#introduction)
 3. [Supported Vector Databases](#supported-vector-databases)
 4. [Prerequisites](#prerequisites)
@@ -19,7 +19,7 @@ Vector databases are specialized database systems designed to store and query hi
 9. [Customization](#customization)
 10. [Best Practices](#best-practices)
 11. [Troubleshooting](#troubleshooting)
-12 [Contributing](#contributing)
+12. [Contributing](#contributing)
 13. [Related Resources](#related-resources)
 14. [License](#license)
 15. [Disclaimer](#disclaimer)
